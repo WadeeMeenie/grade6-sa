@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "Grade 6 SA",
+    "slug": "grade6-sa",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "scheme": "grade6sa",
+    "android": {
+      "package": "za.co.grade6sa.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#F6F8F4"
+      }
+    },
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
