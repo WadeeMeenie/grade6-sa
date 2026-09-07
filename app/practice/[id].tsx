@@ -8,11 +8,12 @@ import { grade6MathsPractice, gradePractice, type QuestionAttempt } from '../../
 
 export default function PracticeScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const objective = grade6MathsObjectives.find((item) => item.id === id) ?? grade6MathsObjectives[0];
+  const objective = grade6MathsObjectives.find((item) => item.id === id);
   const questions = useMemo(() => {
+    if (!objective) return [];
     const focused = grade6MathsPractice.filter((question) => question.objectiveId === objective.id);
     return focused.length >= 2 ? focused : grade6MathsPractice;
-  }, [objective.id]);
+  }, [objective]);
 
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
@@ -20,8 +21,20 @@ export default function PracticeScreen() {
   const [finished, setFinished] = useState(false);
 
   const question = questions[index];
-  const correct = selected === question.answer;
+  const correct = question ? selected === question.answer : false;
   const result = finished ? gradePractice(questions, attempts) : null;
+
+  if (!objective || !question) {
+    return (
+      <View style={styles.resultContent}>
+        <Text style={styles.resultTitle}>Practice unavailable</Text>
+        <Text style={styles.resultSummary}>This lesson does not have practice questions yet.</Text>
+        <Pressable onPress={() => router.back()} style={styles.next}>
+          <Text style={styles.nextText}>Back to lesson</Text>
+        </Pressable>
+      </View>
+    );
+  }
 
   function choose(answer: string) {
     if (selected) return;
@@ -134,14 +147,14 @@ const styles = StyleSheet.create({
   feedbackTitle: { ...typography.body, color: colors.ink, fontWeight: '800' },
   feedbackText: { ...typography.caption, color: colors.muted, marginTop: 4, lineHeight: 20 },
   footer: { padding: spacing.xl, paddingTop: spacing.sm },
-  next: { minHeight: 56, borderRadius: radius.md, backgroundColor: colors.primary, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8 },
+  next: { minHeight: 56, borderRadius: radius.md, backgroundColor: colors.primary, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8, paddingHorizontal: spacing.xl },
   nextDisabled: { opacity: 0.4 },
   nextText: { color: colors.surface, fontSize: 16, fontWeight: '800' },
   resultContent: { flex: 1, padding: spacing.xl, justifyContent: 'center' },
   resultIcon: { width: 72, height: 72, borderRadius: radius.pill, backgroundColor: '#E8F7F4', alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginBottom: spacing.xl },
   resultEyebrow: { ...typography.caption, color: colors.primary, letterSpacing: 1.2, textAlign: 'center' },
   resultTitle: { fontSize: 56, lineHeight: 64, fontWeight: '900', color: colors.ink, textAlign: 'center', marginTop: spacing.sm },
-  resultSummary: { ...typography.body, color: colors.muted, textAlign: 'center' },
+  resultSummary: { ...typography.body, color: colors.muted, textAlign: 'center', marginTop: spacing.sm },
   resultCard: { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: radius.lg, padding: spacing.xl, marginVertical: spacing.xl },
   resultCardTitle: { ...typography.heading, color: colors.ink },
   resultCardText: { ...typography.body, color: colors.muted, marginTop: spacing.sm },
