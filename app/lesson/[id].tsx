@@ -6,7 +6,19 @@ import { grade6MathsObjectives } from '../../src/curriculum/grade6-maths';
 
 export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const objective = grade6MathsObjectives.find((item) => item.id === id) ?? grade6MathsObjectives[0];
+  const objective = grade6MathsObjectives.find((item) => item.id === id);
+
+  if (!objective) {
+    return (
+      <View style={styles.emptyScreen}>
+        <Text style={styles.title}>Lesson not found</Text>
+        <Text style={styles.emptyText}>This lesson is not available in the current curriculum.</Text>
+        <Pressable onPress={() => router.back()} style={styles.primaryButton}>
+          <Text style={styles.primaryText}>Go back</Text>
+        </Pressable>
+      </View>
+    );
+  }
 
   return <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
     <Pressable onPress={() => router.back()} style={styles.back}><Ionicons name="arrow-back" size={22} color={colors.ink} /><Text style={styles.backText}>Back</Text></Pressable>
@@ -23,10 +35,10 @@ export default function LessonScreen() {
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: colors.canvas }, content: { padding: spacing.xl, paddingBottom: 48 },
+  screen: { flex: 1, backgroundColor: colors.canvas }, emptyScreen: { flex: 1, backgroundColor: colors.canvas, padding: spacing.xl, justifyContent: 'center' }, content: { padding: spacing.xl, paddingBottom: 48 },
   back: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: spacing.xl }, backText: { ...typography.body, color: colors.ink, fontWeight: '700' },
   pill: { alignSelf: 'flex-start', backgroundColor: colors.primarySoft, borderRadius: radius.pill, paddingHorizontal: 12, paddingVertical: 7 }, pillText: { ...typography.caption, color: colors.primary },
-  title: { ...typography.title, color: colors.ink, marginTop: spacing.lg }, skill: { ...typography.body, color: colors.primary, marginTop: spacing.sm, fontWeight: '700' },
+  title: { ...typography.title, color: colors.ink, marginTop: spacing.lg }, skill: { ...typography.body, color: colors.primary, marginTop: spacing.sm, fontWeight: '700' }, emptyText: { ...typography.body, color: colors.muted, marginTop: spacing.sm },
   masteryCard: { backgroundColor: colors.ink, borderRadius: radius.lg, padding: spacing.lg, marginTop: spacing.xl }, masteryTop: { flexDirection: 'row', justifyContent: 'space-between' }, masteryLabel: { ...typography.caption, color: '#B8C4D6', letterSpacing: 1.2 }, masteryValue: { ...typography.heading, color: colors.surface }, track: { height: 8, backgroundColor: '#334155', borderRadius: radius.pill, marginTop: spacing.md, overflow: 'hidden' }, fill: { width: '0%', height: '100%', backgroundColor: colors.accent }, masteryHint: { ...typography.caption, color: '#CBD5E1', marginTop: spacing.sm },
   lessonCard: { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: radius.lg, padding: spacing.xl, marginTop: spacing.lg }, section: { ...typography.caption, color: colors.primary, letterSpacing: 1.1 }, goal: { ...typography.body, color: colors.ink, marginTop: spacing.sm, lineHeight: 25, fontWeight: '700' },
   example: { backgroundColor: colors.canvas, borderRadius: radius.md, padding: spacing.lg, marginTop: spacing.lg }, exampleLabel: { ...typography.caption, color: colors.accent, letterSpacing: 1.1 }, exampleTitle: { ...typography.heading, color: colors.ink, marginTop: 6 }, exampleBody: { ...typography.body, color: colors.muted, marginTop: spacing.sm },
