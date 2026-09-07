@@ -1,39 +1,23 @@
 export const colors = {
-  ink: '#17324D',
-  muted: '#667085',
-  canvas: '#F7F9F6',
+  ink: '#14213D',
+  muted: '#64748B',
+  canvas: '#F7F9FC',
   surface: '#FFFFFF',
-  border: '#E4E9E2',
-  primary: '#176B5B',
-  primarySoft: '#DDF2EA',
-  accent: '#F2B84B',
-  accentSoft: '#FFF2D6',
-  success: '#2E8B57',
-  danger: '#C94C4C',
-  info: '#3F73B8'
+  primary: '#176B87',
+  primarySoft: '#DFF3F7',
+  accent: '#F4A261',
+  success: '#2A9D8F',
+  warning: '#E9C46A',
+  danger: '#E76F51',
+  border: '#E2E8F0',
 } as const;
 
-export const spacing = {
-  xs: 4,
-  sm: 8,
-  md: 12,
-  lg: 16,
-  xl: 24,
-  xxl: 32
-} as const;
-
-export const radii = {
-  sm: 10,
-  md: 16,
-  lg: 24,
-  pill: 999
-} as const;
+export const spacing = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32 } as const;
+export const radius = { sm: 10, md: 16, lg: 22, pill: 999 } as const;
 
 export const typography = {
-  display: 30,
-  title: 24,
-  heading: 20,
-  body: 16,
-  small: 14,
-  caption: 12
-} as const;
+  title: { fontSize: 28, lineHeight: 34, fontWeight: '800' as const },
+  heading: { fontSize: 20, lineHeight: 26, fontWeight: '700' as const },
+  body: { fontSize: 16, lineHeight: 23, fontWeight: '500' as const },
+  caption: { fontSize: 13, lineHeight: 18, fontWeight: '600' as const },
+};
